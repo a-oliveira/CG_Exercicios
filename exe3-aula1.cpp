@@ -1,6 +1,6 @@
 #include <iostream>
 #include <GL/glut.h>
-#include "GL/glui.h"
+#include <GL/glui.h>
 #include <math.h>
 
 void desenha 	(void);
@@ -33,14 +33,47 @@ void desenha(void)
 {
 	glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	// canto esquerdo
-	glViewport ((int) 10, (int) 10, (int) 190, (int) 190);
+	// canto inferior esquerdo
+	glViewport ((int) 10, (int) 10, (int) 210, (int) 210);
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
+	glOrtho(-10.0, 1.0, -10.0, 1.0, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	plano();
+	triangulo();
+
+	// canto inferior direito
+	glViewport ((int) 250, (int) 10, (int) 210, (int) 210);
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
+	glOrtho(-1.0, 10.0, 1.0, -10.0, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	plano();
+	triangulo();
+
+	// canto superior direito
+	glViewport ((int) 240, (int) 240, (int) 210, (int) 210);
+	glMatrixMode (GL_PROJECTION);
+	glLoadIdentity ();
+	glOrtho(-1.0, 10.0, -1.0, 10.0, -1, 1);
+
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	plano();
+	triangulo();
+
+	// canto superior esquerdo
+	glViewport ((int) 10, (int) 240, (int) 210, (int) 210);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
 	glOrtho(-10.0, 10.0, -10.0, 10.0, -1, 1);
+
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
-	
 	plano();
 	triangulo();
 
