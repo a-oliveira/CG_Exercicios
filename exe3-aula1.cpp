@@ -45,10 +45,11 @@ void desenha(void)
 	triangulo();
 
 	// canto inferior direito
+	// Coordenadas (x1,x2,y1,y2)
 	glViewport ((int) 250, (int) 10, (int) 210, (int) 210);
 	glMatrixMode (GL_PROJECTION);
 	glLoadIdentity ();
-	glOrtho(-1.0, 10.0, 1.0, -10.0, -1, 1);
+	glOrtho(-1.0, 10.0, -10.0, 1.0, -1, 1);
 
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
