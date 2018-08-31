@@ -93,11 +93,11 @@ void teclado(unsigned char tecla, int x, int y)
 			break;
 
 		case 'r':
-			angulo += 10;
+			angulo -= 10;
 			break;
 
 		case 'R':
-			angulo -= 10;
+			angulo += 10;
 			break;
 
 		case 27:
