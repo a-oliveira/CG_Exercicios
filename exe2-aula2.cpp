@@ -143,7 +143,7 @@ void idle (void)
     if( frameTime <= desiredFrameTime)
         return;
 
-    /*
+     /*
      *UPDATE ANIMATION VARIABLES
      */
 
