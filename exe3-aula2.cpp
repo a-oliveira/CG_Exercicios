@@ -7,36 +7,80 @@ float x           = 0, y = 0, z = 0;
 float desiredFPS  = 15;
 float var         = 0.0f;
 float dir         = 1.0f;
+int largura = 400, altura = 400;
+int qtd           = 8;
+int R = 1;
+int G = 1;
+int B = 1;
 
 void desenha (void);
 void inicia  (void);
-void plano ();
+void tabuleiro ();
 void showMenu();
-void mouse(int button, int state, int x, int y);
+void trocaCor();
+//void mouse(int button, int state, int x, int y);
 void idle(void);
 
 int main(int argc, char** argv)
 {
    glutInit(&argc, argv);
    glutInitDisplayMode (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGB);
-   glutInitWindowSize (300, 300);
+   glutInitWindowSize (largura, altura);
    glutInitWindowPosition (100, 100);
    glutCreateWindow ("Tabuleiro");
    glutIdleFunc(idle);
-   glutMouseFunc(mouse);
+  // glutMouseFunc(mouse);
 
    inicia ();
    glutDisplayFunc(desenha);
-
 
    glutMainLoop();
 
    return 0;
 }
 
+void inicia(void)
+{
+  // selecionar cor de fundo (preto)
+   glClearColor (0.9, 0.2, 0.7, 0.0);
+
+   // inicializar sistema de viz.
+   glMatrixMode(GL_PROJECTION);
+   glLoadIdentity();
+   glOrtho(0.0, 400.0, 0.0, 400.0, 0.0, 400.0);
+
+   glMatrixMode(GL_MODELVIEW);
+   glLoadIdentity();
+}
+void desenha (void)
+{
+  glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+  glLoadIdentity();
+  int m = largura/qtd;
+  int n = altura/qtd;
+
+  for (int i = 0; i < largura; i += m)
+  {
+    for (int j = 0; j < altura; j += n)
+    {
+        glColor3f(R,G,B);
+        glBegin(GL_QUADS);
+          glVertex2f(i,j);
+          glVertex2f(i+m,j);
+          glVertex2f(i+m,j+n);
+          glVertex2f(i,j+n);
+        glEnd();
+        trocaCor();  
+    }
+    
+    trocaCor();
+  }
+ 
+  glutSwapBuffers();
+}
 void idle (void)
 {
-    float t, desiredFrameTime, frameTime;
+    /*float t, desiredFrameTime, frameTime;
     static float tLast = 0.0;
     // Get elapsed time
     t = glutGet(GLUT_ELAPSED_TIME);
@@ -54,7 +98,7 @@ void idle (void)
 
      /*
      *UPDATE ANIMATION VARIABLES
-     */
+     
 
       if(xtrans < x) xtrans += dir * 1;
       else if (xtrans > x) xtrans += dir * -1;
@@ -69,6 +113,24 @@ void idle (void)
       else if (scale > temp2) scale += dir * -1; 
 
       glutPostRedisplay(); 
-    /* Update tLast for next time, using static local variable */
-    tLast = t;
+    /* Update tLast for next time, using static local variable 
+    tLast = t;*/
+}
+
+void trocaCor()
+{
+
+  if(R == 1 and G == 1 and B == 1)
+  {
+    R = 0;
+    G = 0;
+    B = 0;
+  }
+
+  else
+  {
+    R = 1;
+    G = 1;
+    B = 1;
+  }
 }
