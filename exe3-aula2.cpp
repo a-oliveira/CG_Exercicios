@@ -2,23 +2,22 @@
 #include <iostream>
 using namespace std;
 
-float xtrans      = 0, ytrans = 0, ztrans = 0;
-float x           = 0, y = 0, z = 0;
 float desiredFPS  = 15;
 float var         = 0.0f;
 float dir         = 1.0f;
-int largura = 400, altura = 400;
+int largura 	  = 400, altura = 400;
 int qtd           = 8;
+float xtrans      = (largura/qtd)/2, ytrans = (altura/qtd)/2, ztrans = 0;
 int R = 1;
 int G = 1;
 int B = 1;
 
-void desenha (void);
-void inicia  (void);
-void tabuleiro ();
+void tabuleiro 	(void);
+void peca 	 	(void);
+void inicia  	(void);
 void showMenu();
 void trocaCor();
-//void mouse(int button, int state, int x, int y);
+void mouse(int button, int state, int x, int y);
 void idle(void);
 
 int main(int argc, char** argv)
@@ -29,10 +28,10 @@ int main(int argc, char** argv)
    glutInitWindowPosition (100, 100);
    glutCreateWindow ("Tabuleiro");
    glutIdleFunc(idle);
-  // glutMouseFunc(mouse);
+   glutMouseFunc(mouse);
 
    inicia ();
-   glutDisplayFunc(desenha);
+   glutDisplayFunc(tabuleiro);
 
    glutMainLoop();
 
@@ -52,7 +51,7 @@ void inicia(void)
    glMatrixMode(GL_MODELVIEW);
    glLoadIdentity();
 }
-void desenha (void)
+void tabuleiro (void)
 {
   glClear (GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
   glLoadIdentity();
@@ -76,7 +75,39 @@ void desenha (void)
     trocaCor();
   }
  
+  peca();
   glutSwapBuffers();
+}
+void peca (void)
+{
+	glPushMatrix();
+		glColor3f(1.0,0,0);
+		glTranslatef(xtrans, ytrans, ztrans);
+		glutSolidSphere(((largura/qtd)/2)-1, 16, 16);
+	glPopMatrix();
+	glutPostRedisplay();
+}
+
+void mouse(int button, int state, int x, int y)
+{
+	int m = largura/qtd;
+	int n = (altura/qtd)/2;
+	if( button == GLUT_LEFT_BUTTON and state == GLUT_DOWN)
+    {
+    	cout << "x = " << x << " y = " << y << " ";
+    	cout << "\nxtrans = " << xtrans << " ytrans = " << ytrans << endl;
+
+    	if(x > xtrans)
+    	{
+    		xtrans = xtrans + (int) (x/xtrans) * m;
+    	} 
+    	else if(x < xtrans)
+    	{
+    		xtrans = xtrans - (int) (xtrans/x) * m;
+    		cout << "ELSE xtrans = " << xtrans << " ytrans = " << ytrans << endl;
+    	}
+    }
+
 }
 void idle (void)
 {
