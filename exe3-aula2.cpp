@@ -91,21 +91,11 @@ void peca (void)
 void mouse(int button, int state, int x, int y)
 {
 	int m = largura/qtd;
-	int n = (altura/qtd)/2;
+	int n = altura/qtd;
 	if( button == GLUT_LEFT_BUTTON and state == GLUT_DOWN)
     {
-    	cout << "x = " << x << " y = " << y << " ";
-    	cout << "\nxtrans = " << xtrans << " ytrans = " << ytrans << endl;
-
-    	if(x > xtrans)
-    	{
-    		xtrans = xtrans + (int) (x/xtrans) * m;
-    	} 
-    	else if(x < xtrans)
-    	{
-    		xtrans = xtrans - (int) (xtrans/x) * m;
-    		cout << "ELSE xtrans = " << xtrans << " ytrans = " << ytrans << endl;
-    	}
+    	xtrans = ((int) x/m * m) + 25;
+    	ytrans = ((int) y/n * n) + 25; // verificar erro
     }
 
 }
