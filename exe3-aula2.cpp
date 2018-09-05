@@ -5,11 +5,9 @@ using namespace std;
 int R             = 1;
 int G             = 1;
 int B             = 1;
-float desiredFPS  = 60;
-float var         = 0.0f;
-float dir         = 1.0f;
 int qtd           = 8;
 int largura       = 400, altura = 400;
+float dir         = 1.0f;
 float xtrans      = (largura/qtd)/2, ytrans = (altura/qtd)/2, ztrans = 0;
 int temp1         = xtrans, temp2 = ytrans;
 
@@ -108,35 +106,14 @@ void mouse(int button, int state, int x, int y)
 }
 void idle (void)
 {
-    float t, desiredFrameTime, frameTime;
-    static float tLast = 0.0;
-    // Get elapsed time
-    t = glutGet(GLUT_ELAPSED_TIME);
-    // convert milliseconds to seconds
-    t /= 1000.0;
+    if(xtrans < temp1) xtrans += dir * 1;
+    else if (xtrans > temp1) xtrans += dir * -1;
 
-    // Calculate frame time
-    frameTime = t - tLast;
-    // Calculate desired frame time
-    desiredFrameTime = 1.0 / (float) (desiredFPS);
+    if(ytrans < temp2) ytrans += dir * 1;
+    else if (ytrans > temp2) ytrans += dir * -1;
 
-    // Check if the desired frame time was achieved. If not, skip animation.
-    if( frameTime <= desiredFrameTime)
-        return;
+    glutPostRedisplay(); 
 
-     
-     //UPDATE ANIMATION VARIABLES
-
-      if(xtrans < temp1) xtrans += dir * 1;
-      else if (xtrans > temp1) xtrans += dir * -1;
-
-      if(ytrans < temp2) ytrans += dir * 1;
-      else if (ytrans > temp2) ytrans += dir * -1;
-
-      glutPostRedisplay(); 
-
-    /* Update tLast for next time, using static local variable */
-    tLast = t;
 }
 
 void trocaCor()
