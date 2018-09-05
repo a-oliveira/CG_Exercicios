@@ -2,15 +2,17 @@
 #include <iostream>
 using namespace std;
 
-float desiredFPS  = 15;
+int R             = 1;
+int G             = 1;
+int B             = 1;
+float desiredFPS  = 60;
 float var         = 0.0f;
 float dir         = 1.0f;
-int largura 	  = 400, altura = 400;
 int qtd           = 8;
+int largura       = 400, altura = 400;
 float xtrans      = (largura/qtd)/2, ytrans = (altura/qtd)/2, ztrans = 0;
-int R = 1;
-int G = 1;
-int B = 1;
+int temp1         = xtrans, temp2 = ytrans;
+
 
 void tabuleiro 	(void);
 void peca 	 	(void);
@@ -93,15 +95,20 @@ void mouse(int button, int state, int x, int y)
 	int m = largura/qtd;
 	int n = altura/qtd;
 	if( button == GLUT_LEFT_BUTTON and state == GLUT_DOWN)
-    {
-    	xtrans = ((int) x/m * m) + 25;
-    	ytrans = ((int) y/n * n) + 25; // verificar erro
-    }
+  {
+      /*x/m force o num de "colunas" que devem ser puladas
+      +25 define que a esfera será posicionada no meio. */
+    	temp1 = ((int) x/m * m) + 25;
+
+      /* análogo ao xtrans, com a ressalva de altura - y pq
+      a orientação da altura com relação ao mouse é diferente */
+    	temp2 = ((int) (altura - y)/n * n) + 25;
+  }
 
 }
 void idle (void)
 {
-    /*float t, desiredFrameTime, frameTime;
+    float t, desiredFrameTime, frameTime;
     static float tLast = 0.0;
     // Get elapsed time
     t = glutGet(GLUT_ELAPSED_TIME);
@@ -117,25 +124,19 @@ void idle (void)
     if( frameTime <= desiredFrameTime)
         return;
 
-     /*
-     *UPDATE ANIMATION VARIABLES
      
+     //UPDATE ANIMATION VARIABLES
 
-      if(xtrans < x) xtrans += dir * 1;
-      else if (xtrans > x) xtrans += dir * -1;
+      if(xtrans < temp1) xtrans += dir * 1;
+      else if (xtrans > temp1) xtrans += dir * -1;
 
-      if(ytrans < y) ytrans += dir * 1;
-      else if (ytrans > y) ytrans += dir * -1;
-
-      if(angle < temp1) angle += dir * 1;
-      else if (angle > temp1) angle += dir * -1;
-
-      if(scale < temp2) scale += dir * 1;
-      else if (scale > temp2) scale += dir * -1; 
+      if(ytrans < temp2) ytrans += dir * 1;
+      else if (ytrans > temp2) ytrans += dir * -1;
 
       glutPostRedisplay(); 
-    /* Update tLast for next time, using static local variable 
-    tLast = t;*/
+
+    /* Update tLast for next time, using static local variable */
+    tLast = t;
 }
 
 void trocaCor()
